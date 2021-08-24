@@ -62,13 +62,14 @@ namespace Logtail.NLog
                 Message = logEvent.FormattedMessage,
                 Level = logEvent.Level.Name,
                 Context = new Dictionary<string, object> {
-                    // TODO
+                    ["logger"] = logEvent.LoggerName,
+                    ["properties"] = logEvent.Properties,
                     ["runtime"] = new Dictionary<string, object> {
                         ["class"] = logEvent.CallerClassName,
-                        ["method"] = logEvent.CallerMemberName,
+                        ["member"] = logEvent.CallerMemberName,
                         ["file"] = logEvent.CallerFilePath,
-                        ["line"] = logEvent.CallerLineNumber
-                    }
+                        ["line"] = logEvent.CallerLineNumber,
+                    },
                 }
             };
 
