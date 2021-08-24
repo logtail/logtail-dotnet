@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net5</TargetFramework>
-    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,11 +10,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Logtail\Logtail.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="nlog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>
