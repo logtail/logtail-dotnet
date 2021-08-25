@@ -24,7 +24,7 @@ namespace Logtail
 
         public Client(
             string sourceToken,
-            string endpoint = "https://in.logtail.com/",
+            string endpoint = "https://in.logtail.com",
             TimeSpan? timeout = null,
             int retries = 10
         )
@@ -57,7 +57,7 @@ namespace Logtail
         {
             try
             {
-                var response = await httpClient.PostAsync("", content);
+                var response = await httpClient.PostAsync("/", content);
                 return response.IsSuccessStatusCode;
             }
             catch (TaskCanceledException) { } // request timed out
