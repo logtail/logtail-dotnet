@@ -4,7 +4,6 @@
     <Version>0.1.0</Version>
     <Authors>Simon Rozsival</Authors>
     <Company>Better Stack</Company>
-    <PackageLicenseExpression>ISC</PackageLicenseExpression>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
