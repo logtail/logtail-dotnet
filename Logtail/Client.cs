@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Logtail
 {
@@ -14,14 +15,16 @@ namespace Logtail
     public sealed class Client
     {
         private readonly HttpClient httpClient;
-        private readonly int retries;
-        private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        private readonly JsonSerializerSettings settings = new JsonSerializerSettings {
+            ContractResolver = new DefaultContractResolver {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            }
         };
+        private readonly int retries;
 
         public Client(
             string sourceToken,
-            string endpoint = "https://in.logtail.com",
+            string endpoint = "https://in.logtail.com/",
             TimeSpan? timeout = null,
             int retries = 10
         )
@@ -54,7 +57,7 @@ namespace Logtail
         {
             try
             {
-                var response = await httpClient.PostAsync("/", content);
+                var response = await httpClient.PostAsync("", content);
                 return response.IsSuccessStatusCode;
             }
             catch (TaskCanceledException) { } // request timed out
@@ -64,10 +67,8 @@ namespace Logtail
         }
 
         private HttpContent serialize(IEnumerable<Log> logs) {
-            var payload = JsonSerializer.SerializeToUtf8Bytes(logs, jsonOptions);
-            var content = new ByteArrayContent(payload);
-            content.Headers.Add("Content-Type", "application/json");
-            return content;
+            var payload = JsonConvert.SerializeObject(logs, settings);
+            return new StringContent(payload, Encoding.UTF8, "application/json");
         }
     }
 }

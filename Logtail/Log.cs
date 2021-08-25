@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Logtail
 {
     public sealed class Log
     {
-        [JsonPropertyName("dt")]
+        [JsonProperty("dt")]
         public DateTimeOffset Timestamp { get; set; }
 
         public string Message { get; set; }
