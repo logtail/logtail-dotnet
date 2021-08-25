@@ -1,6 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <PackageId>Logtail.NLog</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Simon Rozsival</Authors>
+    <Company>Better Stack</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <TargetFramework>net5</TargetFramework>
   </PropertyGroup>
 
