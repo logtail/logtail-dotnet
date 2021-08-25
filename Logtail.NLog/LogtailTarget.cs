@@ -7,7 +7,8 @@ using System.Collections.Generic;
 namespace Logtail.NLog
 {
     /// <summary>
-    /// NLog target for Logtail.
+    /// NLog target for Logtail. This target does not send all the events individually
+    /// to the Logtail server but it sends them periodically in batches.
     /// </summary>
     /// <seealso cref="Target" />
     [Target("Logtail")]
@@ -30,20 +31,11 @@ namespace Logtail.NLog
 
         private Drain logtail = null;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LogtailTarget" /> class.
-        /// </summary>
-        /// <param name="name">Name of the target.</param>
-        public LogtailTarget(string name)
-        {
-            Name = name;
-        }
-
         protected override void InitializeTarget()
         {
             logtail?.Stop().Wait();
 
-            var client = new Client(SourceToken, endpoint: Endpoint);
+            var client = new Client(SourceToken, Endpoint);
             logtail = new Drain(client);
 
             base.InitializeTarget();
