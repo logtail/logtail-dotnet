@@ -2,7 +2,7 @@ using System;
 
 namespace Logtail
 {
-    public class DrainIsClosedException : Exception
+    public sealed class DrainIsClosedException : Exception
     {
         public DrainIsClosedException() {}
     }

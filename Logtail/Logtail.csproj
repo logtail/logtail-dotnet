@@ -1,9 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net5</TargetFramework>
-    <RootNamespace>Logtail</RootNamespace>
-    <LangVersion>7.0</LangVersion>
-  </PropertyGroup>
-
-</Project>

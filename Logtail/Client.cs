@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 
 namespace Logtail
 {
-    public class Client
+    /// <summary>
+    /// The Client class is responsible for reliable delivery of logs
+    /// to the Logtail servers.
+    /// </summary>
+    public sealed class Client
     {
         private readonly HttpClient httpClient;
         private readonly int retries;
-
         private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
@@ -31,9 +34,13 @@ namespace Logtail
             this.retries = retries;
         }
 
+        /// <summary>
+        /// Sends a collection of logs to the server with several retries
+        /// if an error occures.
+        /// </summary>
         public async Task Send(IEnumerable<Log> logs)
         {
-            var content = encodeJSON(logs);
+            var content = serialize(logs);
 
             for (int i = 0; i < retries; ++i) {
                 await Task.Delay(TimeSpan.FromSeconds(i));
@@ -56,7 +63,7 @@ namespace Logtail
             return false;
         }
 
-        private HttpContent encodeJSON(IEnumerable<Log> logs) {
+        private HttpContent serialize(IEnumerable<Log> logs) {
             var payload = JsonSerializer.SerializeToUtf8Bytes(logs, jsonOptions);
             var content = new ByteArrayContent(payload);
             content.Headers.Add("Content-Type", "application/json");

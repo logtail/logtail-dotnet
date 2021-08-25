@@ -12,7 +12,7 @@ namespace Logtail.NLog
     /// </summary>
     /// <seealso cref="Target" />
     [Target("Logtail")]
-    public class LogtailTarget : Target
+    public sealed class LogtailTarget : Target
     {
         /// <summary>
         /// Gets or sets the name of the application.

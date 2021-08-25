@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Logtail.NLog</PackageId>
+    <PackageId>Logtail</PackageId>
     <Version>0.1.0</Version>
     <Authors>Simon Rozsival</Authors>
     <Company>Better Stack</Company>
@@ -14,9 +14,5 @@
 
   <ItemGroup>
     <PackageReference Include="NLog" Version="4.7.11" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Logtail\Logtail.csproj" />
   </ItemGroup>
 </Project>
