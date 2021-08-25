@@ -64,10 +64,12 @@ namespace Logtail
         private async Task run() {
             var nextDelay = period;
 
-            while (!cancellationTokenSource.IsCancellationRequested) {
+            // XXX: We want the loop to run at least once, even if we stop
+            //      the drain before the we manage to reach this point.
+            do {
                 var flushDuration = await delayed(flush, nextDelay);
                 nextDelay = period - flushDuration;
-            }
+            } while (!cancellationTokenSource.IsCancellationRequested);
         }
 
         private async Task flush() {

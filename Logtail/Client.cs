@@ -55,20 +55,24 @@ namespace Logtail
 
         private async Task<bool> sendOnce(HttpContent content)
         {
-            try
-            {
+            try {
                 var response = await httpClient.PostAsync("/", content);
                 return response.IsSuccessStatusCode;
+            } catch (TaskCanceledException) {
+                // request timed out, silent error
+            } catch (HttpRequestException) {
+                // TODO: repeat only for certain HTTP errors (429, 5xx)
+                // some networking error, silent error
             }
-            catch (TaskCanceledException) { } // request timed out
-            catch (HttpRequestException) { } // some networking error
 
             return false;
         }
 
         private HttpContent serialize(IEnumerable<Log> logs) {
             var payload = JsonConvert.SerializeObject(logs, settings);
-            return new StringContent(payload, Encoding.UTF8, "application/json");
+            var content = new ByteArrayContent(Encoding.UTF8.GetBytes(payload));
+            content.Headers.Add("Content-Type", "application/json");
+            return content;
         }
     }
 }
