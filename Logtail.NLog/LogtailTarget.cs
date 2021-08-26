@@ -10,16 +10,9 @@ namespace Logtail.NLog
     /// NLog target for Logtail. This target does not send all the events individually
     /// to the Logtail server but it sends them periodically in batches.
     /// </summary>
-    /// <seealso cref="Target" />
     [Target("Logtail")]
     public sealed class LogtailTarget : Target
     {
-        /// <summary>
-        /// Gets or sets the name of the application.
-        /// </summary>
-        /// <value>The name of the application.</value>
-        public string ApplicationName { get; set; }
-
         /// <summary>
         /// Gets or sets the Logtail source token.
         /// </summary>
