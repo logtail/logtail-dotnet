@@ -15,7 +15,11 @@ You can configure our NLog target in your `nlog.config`:
 <nlog
     xmlns="<http://www.nlog-project.org/schemas/NLog.xsd>"
     xsi:schemaLocation="NLog NLog.xsd"
-    xmlns:xsi="<http://www.w3.org/2001/XMLSchema-instance>" >
+    xmlns:xsi="<http://www.w3.org/2001/XMLSchema-instance>">
+
+  <extensions>
+    <add assembly="Logtail" />
+  </extensions>
 
   <targets>
     <target xsi:type="Logtail" name="logtail" sourceToken="YOUR_LOGTAIL_SOURCE_TOKEN"/>
@@ -24,10 +28,11 @@ You can configure our NLog target in your `nlog.config`:
   <rules>
     <logger name="*" minlevel="Info" writeTo="logtail" />
   </rules>
+
 </nlog>
 ```
 
-... and then use it from your code:
+Then use your NLog logger anywhere in your app:
 
 ```csharp
 using System;

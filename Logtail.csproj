@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>Logtail</PackageId>
-    <Version>0.1.4</Version>
+    <Version>0.1.5</Version>
     <Authors>Simon Rozsival</Authors>
     <Company>Better Stack</Company>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-
     <None Include="LICENSE.md" Pack="true" PackagePath="$(PackageLicenseFile)"/>
     <None Include="README.md" Pack="true" PackagePath="$(PackageReadmeFile)"/>
     <None Include="icon.png" Pack="true" Visible="false" PackagePath="$(PackageIconFile)" />
