@@ -20,7 +20,25 @@ namespace Logtail.NLog
         [RequiredParameter]
         public string SourceToken { get; set; }
 
+        /// <summary>
+        /// The Logtail endpoint.
+        /// </summary>
         public string Endpoint { get; set; } = "https://in.logtail.com";
+
+        /// <summary>
+        /// Maximum logs sent to the server in one batch.
+        /// </summary>
+        public int MaxBatchSize { get; set; } = 1000;
+
+        /// <summary>
+        /// The flushing period in milliseconds.
+        /// </summary>
+        public int FlushPeriodMilliseconds { get; set; } = 250;
+
+        /// <summary>
+        /// The number of retries of failing HTTP requests.
+        /// </summary>
+        public int Retries { get; set; } = 10;
 
         private Drain logtail = null;
 
@@ -28,8 +46,17 @@ namespace Logtail.NLog
         {
             logtail?.Stop().Wait();
 
-            var client = new Client(SourceToken, Endpoint);
-            logtail = new Drain(client);
+            var client = new Client(
+                SourceToken,
+                endpoint: Endpoint,
+                retries: Retries
+            );
+
+            logtail = new Drain(
+                client,
+                period: TimeSpan.FromMilliseconds(FlushPeriodMilliseconds),
+                maxBatchSize: MaxBatchSize
+            );
 
             base.InitializeTarget();
         }
