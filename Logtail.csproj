@@ -15,8 +15,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net5</TargetFramework>
-    <OutputType>Exe</OutputType>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
