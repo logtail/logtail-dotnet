@@ -53,7 +53,7 @@ namespace Logtail.NLog
                         ["class"] = logEvent.CallerClassName,
                         ["member"] = logEvent.CallerMemberName,
                         ["file"] = logEvent.CallerFilePath,
-                        ["line"] = logEvent.CallerFilePath != null ? logEvent.CallerLineNumber : null,
+                        ["line"] = logEvent.CallerFilePath != null ? logEvent.CallerLineNumber as int? : null,
                     },
                 }
             };
