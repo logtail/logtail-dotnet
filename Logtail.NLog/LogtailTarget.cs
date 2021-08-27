@@ -1,6 +1,7 @@
 ﻿using NLog;
 using NLog.Config;
 using NLog.Targets;
+using NLog.Internal;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace Logtail.NLog
     /// to the Logtail server but it sends them periodically in batches.
     /// </summary>
     [Target("Logtail")]
-    public sealed class LogtailTarget : Target
+    public sealed class LogtailTarget : TargetWithContext, IUsesStackTrace
     {
         /// <summary>
         /// Gets or sets the Logtail source token.
@@ -22,6 +23,14 @@ namespace Logtail.NLog
 
         public string Endpoint { get; set; } = "https://in.logtail.com";
 
+        /// <summary>
+        /// We capture the file and line of every log message by default. You can turn this
+        /// option off if it has negative impact on the performance of your application.
+        /// </summary>
+        public bool CaptureSourceLocation { get; set; } = true;
+
+        public StackTraceUsage StackTraceUsage { get; private set; } = StackTraceUsage.Max;
+
         private Drain logtail = null;
 
         protected override void InitializeTarget()
@@ -30,6 +39,8 @@ namespace Logtail.NLog
 
             var client = new Client(SourceToken, Endpoint);
             logtail = new Drain(client);
+
+            StackTraceUsage = CaptureSourceLocation ? StackTraceUsage.Max : StackTraceUsage.WithoutSource;
 
             base.InitializeTarget();
         }
@@ -52,8 +63,8 @@ namespace Logtail.NLog
                     ["runtime"] = new Dictionary<string, object> {
                         ["class"] = logEvent.CallerClassName,
                         ["member"] = logEvent.CallerMemberName,
-                        ["file"] = logEvent.CallerFilePath,
-                        ["line"] = logEvent.CallerFilePath != null ? logEvent.CallerLineNumber as int? : null,
+                        ["file"] = string.IsNullOrEmpty(logEvent.CallerFilePath) ? null : logEvent.CallerFilePath,
+                        ["line"] = string.IsNullOrEmpty(logEvent.CallerFilePath) ? null : logEvent.CallerLineNumber as int?,
                     },
                 }
             };
