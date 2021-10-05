@@ -41,10 +41,16 @@ namespace Logtail.NLog
         /// </summary>
         public int Retries { get; set; } = 10;
 
+        /// <summary>
         /// We capture the file and line of every log message by default. You can turn this
         /// option off if it has negative impact on the performance of your application.
         /// </summary>
         public bool CaptureSourceLocation { get; set; } = true;
+
+        /// <summary>
+        /// Include GlobalDiagnosticContext in logs.
+        /// </summary>
+        public bool IncludeGlobalDiagnosticContext { get; set; } = true;
 
         public StackTraceUsage StackTraceUsage { get; private set; } = StackTraceUsage.Max;
 
@@ -79,20 +85,37 @@ namespace Logtail.NLog
 
         protected override void Write(LogEventInfo logEvent)
         {
+            var contextDictionary = new Dictionary<string, object> {
+                ["logger"] = logEvent.LoggerName,
+                ["properties"] = logEvent.Properties,
+                ["runtime"] = new Dictionary<string, object> {
+                    ["class"] = logEvent.CallerClassName,
+                    ["member"] = logEvent.CallerMemberName,
+                    ["file"] = string.IsNullOrEmpty(logEvent.CallerFilePath) ? null : logEvent.CallerFilePath,
+                    ["line"] = string.IsNullOrEmpty(logEvent.CallerFilePath) ? null : logEvent.CallerLineNumber as int?,
+                },
+            };
+
+            if (IncludeGlobalDiagnosticContext) {
+                var gdcKeys = GlobalDiagnosticsContext.GetNames();
+
+                if (gdcKeys.Count > 0) {
+                    var gdcDict = new Dictionary<string, object>();
+
+                    foreach (string key in gdcKeys) {
+                        if (string.IsNullOrEmpty(key)) continue;
+                        gdcDict[key] = GlobalDiagnosticsContext.GetObject(key);
+                    }
+
+                    contextDictionary["gdc"] = gdcDict;
+                }
+            }
+
             var log = new Log {
                 Timestamp = new DateTimeOffset(logEvent.TimeStamp),
                 Message = logEvent.FormattedMessage,
                 Level = logEvent.Level.Name,
-                Context = new Dictionary<string, object> {
-                    ["logger"] = logEvent.LoggerName,
-                    ["properties"] = logEvent.Properties,
-                    ["runtime"] = new Dictionary<string, object> {
-                        ["class"] = logEvent.CallerClassName,
-                        ["member"] = logEvent.CallerMemberName,
-                        ["file"] = string.IsNullOrEmpty(logEvent.CallerFilePath) ? null : logEvent.CallerFilePath,
-                        ["line"] = string.IsNullOrEmpty(logEvent.CallerFilePath) ? null : logEvent.CallerLineNumber as int?,
-                    },
-                }
+                Context = contextDictionary
             };
 
             logtail.Enqueue(log);
