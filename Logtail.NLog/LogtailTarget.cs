@@ -110,10 +110,11 @@ namespace Logtail.NLog
                     contextDictionary["gdc"] = gdcDict;
                 }
             }
+            string logMessage = RenderLogEvent(this.Layout, logEvent);
 
             var log = new Log {
                 Timestamp = new DateTimeOffset(logEvent.TimeStamp),
-                Message = logEvent.FormattedMessage,
+                Message = logMessage,
                 Level = logEvent.Level.Name,
                 Context = contextDictionary
             };
