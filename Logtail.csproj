@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>Logtail</PackageId>
-    <Version>0.2.0</Version>
-    <Authors>Simon Rozsival</Authors>
+    <Version>0.2.1</Version>
+    <Authors>Simon Rozsival, Tomas Hromada</Authors>
     <Company>Better Stack</Company>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
