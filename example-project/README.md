@@ -4,7 +4,7 @@ To help you get started with using Logtail in your .NET projects, we have prepar
 
 ## Download and install the example project
 
-You can download the [example project](https://github.com/logtail/monolog-logtail/tree/master/example-project) from GitHub directly or you can clone it to a select directory.
+You can download the example project from GitHub directly or you can clone it to a select directory.
 
 ## Run the example project using Visual Studio
  
