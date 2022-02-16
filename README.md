@@ -61,7 +61,7 @@ To help you get started with using Logtail in your .NET projects, we have prepar
 
 You can download the [example project](https://github.com/logtail/monolog-logtail/tree/master/example-project) from GitHub directly or you can clone it to a select directory.
 
- ## Run the example project using Visual Studio
+## Run the example project using Visual Studio
  
 Replace `<source-token>` with your actual source token in the `nlog.config` file. You can find your source token by going to logtail.com -> sources -> edit.
 
@@ -73,7 +73,7 @@ You should see the following output:
 All done! Now, you can check Logtail to see your logs
 ```
 
-### Run in the command line
+## Run in the command line
 
 Replace `<source-token>` with your actual source token in the `nlog.config` file. You can find your source token by going to logtail.com -> sources -> edit.
 
