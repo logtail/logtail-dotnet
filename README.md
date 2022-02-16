@@ -6,12 +6,12 @@
 [![ISC License](https://img.shields.io/badge/license-ISC-ff69b4.svg)](LICENSE.md)
 [![NuGet version](https://badge.fury.io/nu/Logtail.svg)](https://badge.fury.io/nu/Logtail)
 
-Collect logs directly from any Python code, including Django.
+Collect logs directly from your .NET applications.
 
 [Logtail](https://betterstack.com/logtail) is a hosted service that centralizes all of your logs into one place. Allowing for analysis, correlation and filtering with SQL. Actionable Grafana dashboards and collaboration come built-in. Logtail works with [any language or platform and any data source](https://docs.logtail.com/). 
 
 ### Features
-- Simple integration. Easy setup with NLog.
+- Simple integration. Built on well-known NLog logging library.
 - Support for structured logging and events.
 - Automatically captures useful context.
 - Performant, light weight, with a thoughtful design.
