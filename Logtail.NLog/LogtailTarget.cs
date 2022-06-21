@@ -1,4 +1,6 @@
-﻿using NLog;
+﻿using System;
+using System.Collections.Generic;
+using NLog;
 using NLog.Config;
 using NLog.Targets;
 using NLog.Layouts;
@@ -46,7 +48,7 @@ namespace Logtail.NLog
         public bool CaptureSourceLocation
         {
             get => StackTraceUsage == StackTraceUsage.Max;
-            set => StackTraceUsage = value ? StackTraceUsage.Max : StackTraceUsage.WithoutSource;
+            set => StackTraceUsage = value ? StackTraceUsage.Max : StackTraceUsage.None;
         }
 
         /// <summary>
@@ -54,9 +56,12 @@ namespace Logtail.NLog
         /// </summary>
         public bool IncludeGlobalDiagnosticContext { get; set; } = true;
 
+        /// <summary>
+        /// Control callsite capture of source-file and source-linenumber.
+        /// </summary>
         public StackTraceUsage StackTraceUsage
         {
-            get => _stackTraceUsage ?? StackTraceUsage.Max;
+            get => _stackTraceUsage;
             set
             {
                 if (value == StackTraceUsage.None)
@@ -72,17 +77,21 @@ namespace Logtail.NLog
                 _stackTraceUsage = value;
             }
         }
-        private StackTraceUsage? _stackTraceUsage = null;
+        private StackTraceUsage _stackTraceUsage;
 
         private Drain logtail = null;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LogtailTarget"/> class.
+        /// </summary>
+        public LogtailTarget()
+        {
+            StackTraceUsage = StackTraceUsage.Max;
+        }
+
+        /// <inheritdoc/>
         protected override void InitializeTarget()
         {
-            if (!_stackTraceUsage.HasValue)
-            {
-                StackTraceUsage = StackTraceUsage.Max;
-            }
-
             logtail?.Stop().Wait();
 
             var sourceToken = RenderLogEvent(SourceToken, LogEventInfo.CreateNullEvent());
@@ -103,12 +112,14 @@ namespace Logtail.NLog
             base.InitializeTarget();
         }
 
+        /// <inheritdoc/>
         protected override void CloseTarget()
         {
             logtail?.Stop().Wait();
             base.CloseTarget();
         }
 
+        /// <inheritdoc/>
         protected override void Write(LogEventInfo logEvent)
         {
             var contextDictionary = new Dictionary<string, object> {
