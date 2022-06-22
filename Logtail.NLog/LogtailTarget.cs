@@ -1,9 +1,9 @@
-﻿using NLog;
+﻿using System;
+using System.Collections.Generic;
+using NLog;
 using NLog.Config;
 using NLog.Targets;
-using NLog.Internal;
-using System;
-using System.Collections.Generic;
+using NLog.Layouts;
 
 namespace Logtail.NLog
 {
@@ -12,19 +12,19 @@ namespace Logtail.NLog
     /// to the Logtail server but it sends them periodically in batches.
     /// </summary>
     [Target("Logtail")]
-    public sealed class LogtailTarget : TargetWithContext, IUsesStackTrace
+    public sealed class LogtailTarget : TargetWithContext
     {
         /// <summary>
         /// Gets or sets the Logtail source token.
         /// </summary>
         /// <value>The source token.</value>
         [RequiredParameter]
-        public string SourceToken { get; set; }
+        public Layout SourceToken { get; set; }
 
         /// <summary>
         /// The Logtail endpoint.
         /// </summary>
-        public string Endpoint { get; set; } = "https://in.logtail.com";
+        public Layout Endpoint { get; set; } = "https://in.logtail.com";
 
         /// <summary>
         /// Maximum logs sent to the server in one batch.
@@ -45,24 +45,61 @@ namespace Logtail.NLog
         /// We capture the file and line of every log message by default. You can turn this
         /// option off if it has negative impact on the performance of your application.
         /// </summary>
-        public bool CaptureSourceLocation { get; set; } = true;
+        public bool CaptureSourceLocation
+        {
+            get => StackTraceUsage == StackTraceUsage.Max;
+            set => StackTraceUsage = value ? StackTraceUsage.Max : StackTraceUsage.None;
+        }
 
         /// <summary>
         /// Include GlobalDiagnosticContext in logs.
         /// </summary>
         public bool IncludeGlobalDiagnosticContext { get; set; } = true;
 
-        public StackTraceUsage StackTraceUsage { get; private set; } = StackTraceUsage.Max;
+        /// <summary>
+        /// Control callsite capture of source-file and source-linenumber.
+        /// </summary>
+        public StackTraceUsage StackTraceUsage
+        {
+            get => _stackTraceUsage;
+            set
+            {
+                if (value == StackTraceUsage.None)
+                {
+                    IncludeCallSite = false;
+                    IncludeCallSiteStackTrace = false;
+                }
+                else
+                {
+                    IncludeCallSite = true;
+                    IncludeCallSiteStackTrace = value == StackTraceUsage.Max;
+                }
+                _stackTraceUsage = value;
+            }
+        }
+        private StackTraceUsage _stackTraceUsage;
 
         private Drain logtail = null;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LogtailTarget"/> class.
+        /// </summary>
+        public LogtailTarget()
+        {
+            StackTraceUsage = StackTraceUsage.Max;
+        }
+
+        /// <inheritdoc/>
         protected override void InitializeTarget()
         {
             logtail?.Stop().Wait();
 
+            var sourceToken = RenderLogEvent(SourceToken, LogEventInfo.CreateNullEvent());
+            var endpoint = RenderLogEvent(Endpoint, LogEventInfo.CreateNullEvent());
+
             var client = new Client(
-                SourceToken,
-                endpoint: Endpoint,
+                sourceToken,
+                endpoint: endpoint,
                 retries: Retries
             );
 
@@ -72,17 +109,17 @@ namespace Logtail.NLog
                 maxBatchSize: MaxBatchSize
             );
 
-            StackTraceUsage = CaptureSourceLocation ? StackTraceUsage.Max : StackTraceUsage.WithoutSource;
-
             base.InitializeTarget();
         }
 
+        /// <inheritdoc/>
         protected override void CloseTarget()
         {
             logtail?.Stop().Wait();
             base.CloseTarget();
         }
 
+        /// <inheritdoc/>
         protected override void Write(LogEventInfo logEvent)
         {
             var contextDictionary = new Dictionary<string, object> {
