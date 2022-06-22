@@ -1,2 +1,5 @@
 bin/*
 obj/*
+
+example-project/bin/*
+example-project/obj/*
