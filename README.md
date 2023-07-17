@@ -21,35 +21,9 @@ Collect logs directly from your .NET applications.
 
 # Installation
 
-## In Visual Studio
+We currently support logging using **NLog** and **Serilog**.
 
-In Visual Studio, open **NuGet Package Manager Console** by clicking Tools **→ NuGet Package Manager → Package Manager Console**
-
-In the opened console run the following command:
-
-```php
-Install-Package Logtail
-```
-
-Then run the following command to install `NLog.Extensions.Logging` package:
-
-```php
-Install-Package NLog.Extensions.Logging
-```
-
-## In PowerShell command line
-
-To install the `Logtail` package using PowerShell, run the following command in your project’s directory:
-
-```powershell
-dotnet add package Logtail
-```
-
-Then install `NLog.Extensions.Logging` package using the following command:
-
-```powershell
-dotnet add package NLog.Extensions.Logging
-```
+You can find both installation guides in our [Better Stack .NET logging](https://betterstack.com/docs/logs/net-c/) docs.
 
 ---
 
@@ -92,9 +66,9 @@ All done! Now, you can check Logtail to see your logs
 ## Explore how example project works
  
 Learn how to setup .NET logging by exploring the workings of the [example project](https://github.com/logtail/logtail-dotnet/tree/main/example-project) in detail. 
- 
+
 ---
- 
+
 ## Get in touch
 
 Have any questions? Please explore the Logtail [documentation](https://docs.logtail.com/) or contact our [support](https://betterstack.com/help).
