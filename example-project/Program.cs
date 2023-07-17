@@ -14,10 +14,10 @@ var logger = LogManager.GetCurrentClassLogger();
 //Additionaly, it also show how to structure logs to add additional data
 
 //Ttrace the code using the Trace() method
-logger.Trace("Tracing the code !");
+logger.Trace("Tracing the code!");
 
 //Send debug messages using the Debug() method
-logger.Debug("Debugging is hard, but can be easier with Logtai!");
+logger.Debug("Debugging is hard, but can be easier with Logtail!");
 
 //Send informative messages about application progress using the Info() method
 //All of the properties that you pass to the log will be stored in a structured
@@ -31,6 +31,6 @@ logger.Warn("Something is happening!");
 logger.Error("Error occurred! And it's not good.");
 
 //Report fatal errors that coused application to crash using the Fatal() method
-logger.Fatal("Application crashed! Needs to be fixed ASP!");
+logger.Fatal("Application crashed! Needs to be fixed ASAP!");
 
 Console.WriteLine("All done! Now, you can check Logtail to see your logs");
