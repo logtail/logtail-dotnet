@@ -1,5 +1,6 @@
 bin/*
 obj/*
+global.json
 
 example-project/bin/*
 example-project/obj/*
