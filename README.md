@@ -4,7 +4,7 @@
 
 
 [![ISC License](https://img.shields.io/badge/license-ISC-ff69b4.svg)](LICENSE.md)
-[![Nuget version](https://badge.fury.io/nu/Logtail.svg")](https://www.nuget.org/packages/Logtail)
+[![Nuget version](https://badge.fury.io/nu/Logtail.svg)](https://www.nuget.org/packages/Logtail)
 
 Collect logs directly from your .NET applications.
 
