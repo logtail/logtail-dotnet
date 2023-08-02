@@ -54,7 +54,7 @@ In the root directory of the project create the `nlog.config` file or copy the f
 	</extensions>
 
 	<targets>
-		<!-- Dont forget to change SOURCE_TOKEN to your actual cource token-->
+		<!-- Dont forget to change SOURCE_TOKEN to your actual source token-->
 		<target xsi:type="Logtail" name="logtail" layout="${message}" sourceToken="SOURCE_TOKEN" />
 	</targets>
 
