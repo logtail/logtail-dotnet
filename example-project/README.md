@@ -93,6 +93,15 @@ var logger = LogManager.GetCurrentClassLogger();
 
 This will create a logger for the current class. In this case, it will be created for the `Program` class and it will add `“logger_string”` with the value `“Program”` to the context of the JSON log message.
 
+### Colored property values
+
+If you'd like your logged properties to be colored by their type, include following configuration when you create a logger:
+
+```csharp
+// Configure NLog to color properties based on their type
+NLog.Config.ConfigurationItemFactory.Default.ValueFormatter = new Logtail.NLog.ColorValueFormatter();
+```
+
 ### Filter logs
 
 The name of the logger will also be present in the log message which will look something like this:
