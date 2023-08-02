@@ -54,8 +54,8 @@ In the root directory of the project create the `nlog.config` file or copy the f
 	</extensions>
 
 	<targets>
-		<!-- Dont forget to change SOURCE_TOKEN to your actual cource token-->
-		<target xsi:type="Logtail" name="logtail" sourceToken="SOURCE_TOKEN" />
+		<!-- Dont forget to change SOURCE_TOKEN to your actual source token-->
+		<target xsi:type="Logtail" name="logtail" layout="${message}" sourceToken="SOURCE_TOKEN" />
 	</targets>
 
 	<rules>
@@ -205,6 +205,7 @@ The Logtail target will send you logs periodically in batches to optimize networ
 <target
    xsi:type="Logtail"
    name="logtail"
+   layout="${message}"
    sourceToken="YOUR_SOURCE_TOKEN"
    maxBatchSize="200"
    flushPeriodMilliseconds="1000"
