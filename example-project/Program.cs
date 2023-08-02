@@ -7,6 +7,9 @@
 
 using NLog;
 
+// Configure NLog to color properties based on their type
+NLog.Config.ConfigurationItemFactory.Default.ValueFormatter = new Logtail.NLog.ColorValueFormatter();
+
 // Create logger for current class
 var logger = LogManager.GetCurrentClassLogger();
 
