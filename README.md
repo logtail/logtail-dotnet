@@ -1,7 +1,5 @@
 # [Better Stack](https://betterstack.com/logs) .NET client
 
-📣 Logtail is now part of Better Stack. [Learn more ⇗](https://betterstack.com/press/introducing-better-stack/)
-
 ⚠️ **This package has been deprecated. Please, switch to new maintained packages:**
 
 - if you use NLog logging platform, use [BetterStack.Logs.NLog](https://github.com/BetterStackHQ/logs-client-nlog)
