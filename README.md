@@ -2,7 +2,7 @@
 
 📣 Logtail is now part of Better Stack. [Learn more ⇗](https://betterstack.com/press/introducing-better-stack/)
 
-⚠️ T**his package has been deprecated. Please, switch to new maintained packages:**
+⚠️ **This package has been deprecated. Please, switch to new maintained packages:**
 
 - if you use NLog logging platform, use [BetterStack.Logs.NLog](https://github.com/BetterStackHQ/logs-client-nlog)
 - if you use Serilog logging library, use [BetterStack.Logs.Serilog](https://github.com/BetterStackHQ/logs-client-serilog)
